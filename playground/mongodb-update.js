@@ -16,7 +16,7 @@ MongoClient.connect(
 
     // findOneAndUpdate
 
-    db.collection('Packages')
+    db.collection('packages')
       .findOneAndUpdate(
         {
           // name: 'Android'

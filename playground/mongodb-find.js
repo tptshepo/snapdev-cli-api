@@ -14,7 +14,7 @@ MongoClient.connect(
 
     const db = client.db(dbName);
 
-    db.collection('Packages')
+    db.collection('packages')
       .find({
         // name: 'Android'
         _id: new ObjectID('5bb634561933cd2944b29fee')
@@ -31,7 +31,7 @@ MongoClient.connect(
         }
       );
 
-    // db.collection('Packages')
+    // db.collection('packages')
     //   .find()
     //   .count()
     //   .then(

@@ -14,7 +14,7 @@ MongoClient.connect(
 
     const db = client.db(dbName);
 
-    db.collection('Packages').insertOne(
+    db.collection('packages').insertOne(
       {
         name: 'CSharp',
         tags: ['.net', 'core']

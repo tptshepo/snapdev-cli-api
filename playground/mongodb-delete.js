@@ -15,7 +15,7 @@ MongoClient.connect(
     const db = client.db(dbName);
 
     // deleteMany
-    // db.collection('Packages')
+    // db.collection('packages')
     //   .deleteMany({
     //     name: 'hello'
     //   })
@@ -32,7 +32,7 @@ MongoClient.connect(
 
     // deleteOne
 
-    // db.collection('Packages')
+    // db.collection('packages')
     //   .deleteOne({
     //     name: 'tshepo'
     //   })
@@ -49,7 +49,7 @@ MongoClient.connect(
 
     // findOneAndDelete - results returns the document that was deleted
 
-    db.collection('Packages')
+    db.collection('packages')
       .findOneAndDelete({
         _id: new ObjectID('5bb63c8be01a7028942647ec')
       })
