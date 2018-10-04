@@ -1,0 +1,21 @@
+{
+    "extends": "standard",
+    "plugins": [
+        "standard",
+        "promise",
+        "require-path-exists"
+    ],
+    "rules": {
+        "semi": "off",
+        "no-unexpected-multiline": "off",
+        "no-multiple-empty-lines": "off",
+        "padded-blocks": "off",
+        "no-trailing-spaces": "off",
+        "require-path-exists/exists": [2, {
+            "extensions": [
+                "",
+                ".js"
+            ]
+        }]
+    }
+}
