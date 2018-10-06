@@ -1,4 +1,5 @@
 require('./config/config');
+require('./db/mongoose');
 
 // const _ = require('lodash');
 const path = require('path');
@@ -24,8 +25,10 @@ app.use(express.static(path.join(__dirname, '/../')));
 
 // Routes
 const indexRoutes = require('./routes/index.route');
+const packageRoutes = require('./routes/package.route');
 
 app.use('/', indexRoutes);
+app.use('/api/packages', packageRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -35,13 +38,13 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use((e, req, res, next) => {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = e.message;
+  res.locals.error = req.app.get('env') === 'development' ? e : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(e.status || 500);
   res.render('home/error');
 });
 
