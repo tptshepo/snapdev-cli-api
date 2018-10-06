@@ -1,48 +1,52 @@
-const mongoose = require('mongoose');
+require('./config/config');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/SnapDev');
+// const _ = require('lodash');
+const path = require('path');
+var favicon = require('serve-favicon');
+const express = require('express');
+const bodyParser = require('body-parser');
+const logger = require('morgan');
 
-const Schema = mongoose.Schema;
+// const { ObjectID } = require('mongodb');
+// var { mongoose } = require('./db/mongoose');
 
-const TemplateSchema = new Schema({
-  sourceName: String,
-  outputName: String,
-  content: String
+const app = express();
+const port = process.env.PORT;
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
+app.use(favicon(path.join(__dirname, '/../public', 'favicon.ico')));
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, '/../')));
+
+// Routes
+const indexRoutes = require('./routes/index.route');
+
+app.use('/', indexRoutes);
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-const PackageSchema = new Schema({
-  name: { type: String, required: true, minLength: 1, trim: true },
-  tags: [String],
-  dataSchema: String,
-  templates: [TemplateSchema]
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('home/error');
 });
 
-var Package = mongoose.model('Package', PackageSchema);
-
-const newPackage = new Package({
-  name: 'Android',
-  tags: ['app', 'mobile'],
-  dataSchema: '{ text: "data" }',
-  templates: [
-    {
-      sourceName: 'Context.java',
-      outputName: 'MyContext.java',
-      content: 'this is source code for context'
-    },
-    {
-      sourceName: 'Settings.java',
-      outputName: 'MySettings.java',
-      content: 'this is source code for settings'
-    }
-  ]
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });
 
-newPackage.save().then(
-  doc => {
-    console.log('Package save:', doc);
-  },
-  err => {
-    console.log('Unable to save:', err);
-  }
-);
+module.exports = { app };
