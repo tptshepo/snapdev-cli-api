@@ -7,14 +7,14 @@ const { Package } = require('./../models/package.model');
 
 const packages = [
   {
-    _id: new ObjectID(),
+    _id: new ObjectID('5bb9fdfb03fa1d5f278e516f'),
     name: 'Android',
     tags: ['mobile', 'android'],
     schemaModel: '{ package: "com.qualip.myapp" }',
     templates: [new ObjectID()]
   },
   {
-    _id: new ObjectID(),
+    _id: new ObjectID('5bba10df1a7ac7627cb94fcd'),
     name: 'Nodejs',
     tags: ['api', 'nodejs'],
     schemaModel: '{ project: "cli-app" }',
@@ -34,7 +34,6 @@ describe('POST /api/packages', () => {
   it('should create a new package', done => {
     const objID = new ObjectID();
     var doc = {
-      _id: new ObjectID(),
       name: 'iOS',
       tags: ['mobile', 'ios'],
       schemaModel: '{ project: "com.qualip.ios" }',
