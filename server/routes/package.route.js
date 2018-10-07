@@ -14,11 +14,9 @@ router.post('/', (req, res, next) => {
 
   packageModel.save().then(
     doc => {
-      // console.log('Package save:', doc);
       res.send(doc);
     },
     e => {
-      // console.log('Unable to save package:', e);
       res.status(400).send(e);
     }
   );
@@ -47,7 +45,6 @@ router.get('/:id', (req, res) => {
       if (!doc) {
         return res.status(404).send();
       }
-
       res.send(doc);
     })
     .catch(e => {
