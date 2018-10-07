@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 
 const TemplateSchema = new Schema({
   package: { type: Schema.Types.ObjectId, required: true },
-  sourceFileName: String,
-  destFileName: String,
-  path: String,
-  fileContent: String
+  sourceFileName: { type: String, required: true },
+  destFileName: { type: String, required: true },
+  path: { type: String, required: true },
+  fileContent: { type: String, required: true }
 });
 
 const Template = mongoose.model('Template', TemplateSchema);
