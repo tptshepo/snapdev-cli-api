@@ -1,18 +1,12 @@
 const mongoose = require('mongoose');
-
+mongoose.set('useFindAndModify', false);
 const Schema = mongoose.Schema;
-
-const TemplateSchema = new Schema({
-  sourceFileName: String,
-  outputFileName: String,
-  content: String
-});
 
 const PackageSchema = new Schema({
   name: { type: String, required: true, minLength: 1, trim: true },
   tags: [String],
-  modelSchema: String,
-  templates: [TemplateSchema]
+  schemaModel: String,
+  templates: [Schema.Types.ObjectId]
 });
 
 const Package = mongoose.model('Package', PackageSchema);

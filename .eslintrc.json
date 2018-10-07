@@ -1,11 +1,16 @@
 {
     "extends": "standard",
+    "env": {
+        "mocha": true
+    },
     "plugins": [
         "standard",
         "promise",
-        "require-path-exists"
+        "require-path-exists",
+        "mocha"
     ],
     "rules": {
+        "mocha/no-exclusive-tests": "error",
         "semi": "off",
         "no-unexpected-multiline": "off",
         "no-multiple-empty-lines": "off",

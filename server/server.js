@@ -1,15 +1,11 @@
 require('./config/config');
 require('./db/mongoose');
 
-// const _ = require('lodash');
 const path = require('path');
 var favicon = require('serve-favicon');
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-
-// const { ObjectID } = require('mongodb');
-// var { mongoose } = require('./db/mongoose');
 
 const app = express();
 const port = process.env.PORT;
