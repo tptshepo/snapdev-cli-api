@@ -10,15 +10,13 @@ const packages = [
     _id: new ObjectID('5bb9fdfb03fa1d5f278e516f'),
     name: 'Android',
     tags: ['mobile', 'android'],
-    schemaModel: '{ package: "com.qualip.myapp" }',
-    templates: [new ObjectID()]
+    schemaModel: '{ package: "com.qualip.myapp" }'
   },
   {
     _id: new ObjectID('5bba10df1a7ac7627cb94fcd'),
     name: 'Nodejs',
     tags: ['api', 'nodejs'],
-    schemaModel: '{ project: "cli-app" }',
-    templates: [new ObjectID()]
+    schemaModel: '{ project: "cli-app" }'
   }
 ];
 
@@ -32,12 +30,10 @@ beforeEach(done => {
 
 describe('POST /api/packages', () => {
   it('should create a new package', done => {
-    const objID = new ObjectID();
     var doc = {
       name: 'iOS',
       tags: ['mobile', 'ios'],
-      schemaModel: '{ project: "com.qualip.ios" }',
-      templates: [objID]
+      schemaModel: '{ project: "com.qualip.ios" }'
     };
 
     request(app)
@@ -58,9 +54,6 @@ describe('POST /api/packages', () => {
             expect(packages[0].tags[0]).toBe(doc.tags[0]);
             expect(packages[0].tags[1]).toBe(doc.tags[1]);
             expect(packages[0].schemaModel).toBe(doc.schemaModel);
-            expect(packages[0].templates[0].toHexString()).toBe(
-              objID.toHexString()
-            );
             done();
           })
           .catch(e => done(e));
@@ -172,15 +165,13 @@ describe('PATCH /api/packages/:id', () => {
     const schemaModel = 'new schema model';
     const tags = ['1', '2'];
     const objID = new ObjectID();
-    const templates = [objID];
 
     request(app)
       .patch(`/api/packages/${hexId}`)
       .send({
         name,
         schemaModel,
-        tags,
-        templates
+        tags
       })
       .expect(200)
       .expect(res => {
@@ -188,7 +179,6 @@ describe('PATCH /api/packages/:id', () => {
         expect(res.body.schemaModel).toBe(schemaModel);
         expect(res.body.tags[0]).toBe(tags[0]);
         expect(res.body.tags[1]).toBe(tags[1]);
-        expect(res.body.templates[0]).toBe(objID.toHexString());
       })
       .end(done);
   });

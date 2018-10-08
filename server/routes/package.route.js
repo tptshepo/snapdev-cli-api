@@ -8,8 +8,7 @@ router.post('/', (req, res, next) => {
   const packageModel = new Package({
     name: req.body.name,
     tags: req.body.tags || [],
-    schemaModel: req.body.schemaModel || '',
-    templates: req.body.templates || []
+    schemaModel: req.body.schemaModel || ''
   });
 
   packageModel.save().then(
@@ -73,7 +72,7 @@ router.delete('/:id', (req, res) => {
 
 router.patch('/:id', (req, res) => {
   var id = req.params.id;
-  var body = _.pick(req.body, ['name', 'tags', 'schemaModel', 'templates']);
+  var body = _.pick(req.body, ['name', 'tags', 'schemaModel']);
 
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();

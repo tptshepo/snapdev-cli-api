@@ -1,4 +1,4 @@
-const _ = require('lodash');
+// const _ = require('lodash');
 const expect = require('expect');
 const request = require('supertest');
 const { ObjectID } = require('mongodb');
@@ -49,34 +49,12 @@ beforeEach(done => {
       return Package.insertMany(packages);
     })
     .then(() => {
-      return Template.deleteMany({})
-        .then(() => {
-          return Template.insertMany(templates);
-        })
-        .then(templateDocs => {
-          // console.log('templates****', templateDocs);
-          // find package for templates
-          return Package.findById('5bba10df1a7ac7627cb94fcd')
-            .then(packageDoc => {
-              // add template ID's to package
-              // console.log('packages****', packageDoc);
-              templateDocs.forEach(template => {
-                packageDoc.templates.push(
-                  new ObjectID(template._id.toHexString())
-                );
-              });
-
-              // patch package with templates
-              var body = _.pick(packageDoc, ['templates']);
-              return Package.findByIdAndUpdate(
-                '5bba10df1a7ac7627cb94fcd',
-                { $set: body },
-                { new: true }
-              );
-            })
-            .then(() => done());
-        });
-    });
+      return Template.deleteMany({});
+    })
+    .then(() => {
+      return Template.insertMany(templates);
+    })
+    .then(() => done());
 });
 
 describe('POST /api/templates', () => {
@@ -121,129 +99,128 @@ describe('POST /api/templates', () => {
       });
   });
 
-  // it('should not create template with invalid body data', done => {
-  //   request(app)
-  //     .post('/api/templates')
-  //     .send({})
-  //     .expect(400)
-  //     .end((err, res) => {
-  //       if (err) {
-  //         return done(err);
-  //       }
+  it('should not create template with invalid body data', done => {
+    request(app)
+      .post('/api/templates')
+      .send({})
+      .expect(400)
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
 
-  //       Template.find()
-  //         .then(templates => {
-  //           expect(templates.length).toBe(2);
-  //           done();
-  //         })
-  //         .catch(e => done(e));
-  //     });
-  // });
+        Template.find()
+          .then(templates => {
+            expect(templates.length).toBe(2);
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
 });
 
-// describe('GET /api/templates', () => {
-//   it('should get all templates', done => {
-//     request(app)
-//       .get('/api/templates')
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body.length).toBe(2);
-//       })
-//       .end(done);
-//   });
-// });
+describe('GET /api/templates', () => {
+  it('should get all templates', done => {
+    request(app)
+      .get('/api/templates')
+      .expect(200)
+      .expect(res => {
+        expect(res.body.length).toBe(2);
+      })
+      .end(done);
+  });
+});
 
-// describe('GET /api/templates/:id', () => {
-//   it('should return template doc', done => {
-//     request(app)
-//       .get(`/api/templates/${templates[0]._id.toHexString()}`)
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body.name).toBe(templates[0].name);
-//       })
-//       .end(done);
-//   });
+describe('GET /api/templates/:id', () => {
+  it('should return template doc', done => {
+    request(app)
+      .get(`/api/templates/${templates[0]._id.toHexString()}`)
+      .expect(200)
+      .expect(res => {
+        expect(res.body.sourceFileName).toBe(templates[0].sourceFileName);
+      })
+      .end(done);
+  });
 
-//   it('should return 404 if template not found', done => {
-//     var hexId = new ObjectID().toHexString();
-//     request(app)
-//       .get(`/api/templates/${hexId}`)
-//       .expect(404)
-//       .end(done);
-//   });
+  it('should return 404 if template not found', done => {
+    var hexId = new ObjectID().toHexString();
+    request(app)
+      .get(`/api/templates/${hexId}`)
+      .expect(404)
+      .end(done);
+  });
 
-//   it('should return 404 for non-object ids', done => {
-//     request(app)
-//       .get('/api/templates/123abc')
-//       .expect(404)
-//       .end(done);
-//   });
-// });
+  it('should return 404 for non-object ids', done => {
+    request(app)
+      .get('/api/templates/123abc')
+      .expect(404)
+      .end(done);
+  });
+});
 
-// describe('DELETE /api/templates/:id', () => {
-//   it('should remove a template', done => {
-//     var hexId = templates[1]._id.toHexString();
-//     request(app)
-//       .delete(`/api/templates/${hexId}`)
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body._id).toBe(hexId);
-//       })
-//       .end((err, res) => {
-//         if (err) {
-//           return done(err);
-//         }
+describe('DELETE /api/templates/:id', () => {
+  it('should remove a template', done => {
+    var hexId = templates[1]._id.toHexString();
+    request(app)
+      .delete(`/api/templates/${hexId}`)
+      .expect(200)
+      .expect(res => {
+        expect(res.body._id).toBe(hexId);
+      })
+      .end((err, res) => {
+        if (err) {
+          return done(err);
+        }
 
-//         Template.findById(hexId)
-//           .then(doc => {
-//             expect(doc).toBeFalsy();
-//             done();
-//           })
-//           .catch(e => done(e));
-//       });
-//   });
+        Template.findById(hexId)
+          .then(doc => {
+            expect(doc).toBeFalsy();
+            done();
+          })
+          .catch(e => done(e));
+      });
+  });
 
-//   it('should return 404 if template not found', done => {
-//     var hexId = new ObjectID().toHexString();
-//     request(app)
-//       .delete(`/api/templates/${hexId}`)
-//       .expect(404)
-//       .end(done);
-//   });
+  it('should return 404 if template not found', done => {
+    var hexId = new ObjectID().toHexString();
+    request(app)
+      .delete(`/api/templates/${hexId}`)
+      .expect(404)
+      .end(done);
+  });
 
-//   it('should return 404 if object id is invalid', done => {
-//     request(app)
-//       .delete('/api/templates/123abc')
-//       .expect(404)
-//       .end(done);
-//   });
-// });
+  it('should return 404 if object id is invalid', done => {
+    request(app)
+      .delete('/api/templates/123abc')
+      .expect(404)
+      .end(done);
+  });
+});
 
-// describe('PATCH /api/templates/:id', () => {
-//   it('should update the template', done => {
-//     const hexId = templates[0]._id.toHexString();
-//     const name = 'This should be the new name';
-//     const schemaModel = 'new schema model';
-//     const tags = ['1', '2'];
-//     const objID = new ObjectID();
-//     const templates = [objID];
+describe('PATCH /api/templates/:id', () => {
+  it('should update the template', done => {
+    const hexId = templates[0]._id.toHexString();
 
-//     request(app)
-//       .patch(`/api/templates/${hexId}`)
-//       .send({
-//         name,
-//         schemaModel,
-//         tags,
-//         templates
-//       })
-//       .expect(200)
-//       .expect(res => {
-//         expect(res.body.name).toBe(name);
-//         expect(res.body.schemaModel).toBe(schemaModel);
-//         expect(res.body.tags[0]).toBe(tags[0]);
-//         expect(res.body.tags[1]).toBe(tags[1]);
-//         expect(res.body.templates[0]).toBe(objID.toHexString());
-//       })
-//       .end(done);
-//   });
-// });
+    const sourceFileName = 'data.js';
+    const destFileName = 'newData.js';
+    const path = '/com/qualip';
+    const fileContent = 'this is a data file';
+
+    request(app)
+      .patch(`/api/templates/${hexId}`)
+      .send({
+        sourceFileName,
+        destFileName,
+        path,
+        fileContent
+      })
+      .expect(200)
+      .expect(res => {
+        expect(res.body.sourceFileName).toBe(sourceFileName);
+        expect(res.body.destFileName).toBe(destFileName);
+        expect(res.body.path).toBe(path);
+        expect(res.body.fileContent).toBe(fileContent);
+      })
+      .end(done);
+  });
+});
