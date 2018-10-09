@@ -24,11 +24,13 @@ const indexRoutes = require('./routes/index.route');
 const packageRoutes = require('./routes/package.route');
 const templateRoutes = require('./routes/template.route');
 const projectRoutes = require('./routes/project.route');
+const projectPackageRoutes = require('./routes/projectPackage.route');
 
 app.use('/', indexRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/templates', templateRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/projectPackages', projectPackageRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
