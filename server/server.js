@@ -23,10 +23,12 @@ app.use(express.static(path.join(__dirname, '/../')));
 const indexRoutes = require('./routes/index.route');
 const packageRoutes = require('./routes/package.route');
 const templateRoutes = require('./routes/template.route');
+const projectRoutes = require('./routes/project.route');
 
 app.use('/', indexRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/templates', templateRoutes);
+app.use('/api/projects', projectRoutes);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
