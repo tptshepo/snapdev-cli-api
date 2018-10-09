@@ -6,12 +6,12 @@ const { Template } = require('../models/template.model');
 
 router.post('/', (req, res, next) => {
   // console.log('req.body', req.body);
-  if (!ObjectID.isValid(req.body.package)) {
+  if (!ObjectID.isValid(req.body.packageId)) {
     return res.status(400).send();
   }
 
   const templateModel = new Template({
-    package: new ObjectID(req.body.package),
+    packageId: new ObjectID(req.body.packageId),
     sourceFileName: req.body.sourceFileName || '',
     destFileName: req.body.destFileName || '',
     path: req.body.path || '/',

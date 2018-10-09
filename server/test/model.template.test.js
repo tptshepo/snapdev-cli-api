@@ -27,7 +27,7 @@ const packages = [
 const templates = [
   {
     _id: new ObjectID(),
-    package: new ObjectID('5bba10df1a7ac7627cb94fcd'),
+    packageId: new ObjectID('5bba10df1a7ac7627cb94fcd'),
     sourceFileName: 'controller.js',
     destFileName: 'controller.js',
     path: '/',
@@ -35,7 +35,7 @@ const templates = [
   },
   {
     _id: new ObjectID(),
-    package: new ObjectID('5bba10df1a7ac7627cb94fcd'),
+    packageId: new ObjectID('5bba10df1a7ac7627cb94fcd'),
     sourceFileName: 'model.js',
     destFileName: 'model.js',
     path: '/',
@@ -62,7 +62,7 @@ describe('POST /api/templates', () => {
     const packageHexId = packages[0]._id.toHexString();
 
     var doc = {
-      package: packageHexId,
+      packageId: packageHexId,
       sourceFileName: 'route.js',
       destFileName: 'route.js',
       path: '/',

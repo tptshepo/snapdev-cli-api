@@ -164,7 +164,6 @@ describe('PATCH /api/packages/:id', () => {
     const name = 'This should be the new name';
     const schemaModel = 'new schema model';
     const tags = ['1', '2'];
-    const objID = new ObjectID();
 
     request(app)
       .patch(`/api/packages/${hexId}`)

@@ -4,7 +4,7 @@ mongoose.set('useFindAndModify', false);
 const Schema = mongoose.Schema;
 
 const TemplateSchema = new Schema({
-  package: { type: Schema.Types.ObjectId, required: true },
+  packageId: { type: Schema.Types.ObjectId, required: true },
   sourceFileName: { type: String, required: true },
   destFileName: { type: String, required: true },
   path: { type: String, required: true },
